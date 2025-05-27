@@ -1,0 +1,25 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/debian
+{
+  // .devcontainer/があるディレクトリ名をDevContainer名とする
+  "name": "${localWorkspaceFolderBasename}",
+  // Ubuntuのバージョンを指定したイメージ
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  // コンテナ内の作業ディレクトリ
+  "workspaceFolder": "/workspace",
+  // ローカルディレクトリを/workspaceにマウント
+  // この指定がない場合、/workspaces/{localWorkspaceFolderBasename} が作成される
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  // Dartインストール
+  "onCreateCommand": "wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/dart.gpg && echo 'deb [signed-by=/usr/share/keyrings/dart.gpg arch=amd64] https://storage.googleapis.com/download.dartlang.org/linux/debian stable main' | sudo tee /etc/apt/sources.list.d/dart_stable.list && sudo apt update -qq && sudo apt install --yes dart && sudo apt clean && sudo rm -rf /var/lib/apt/lists/*",
+  // REPL
+  "postCreateCommand": "dart pub global activate interactive && echo 'export PATH=${PATH}:$HOME/.pub-cache/bin' >> ~/.bashrc && source ~/.bashrc",
+  "customizations": {
+    // VSCode拡張機能
+    "vscode": {
+      "extensions": [
+        "dart-code.dart-code" // Dart language support and debugger
+      ]
+    }
+  }
+}

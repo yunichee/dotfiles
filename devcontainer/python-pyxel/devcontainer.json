@@ -1,0 +1,38 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/python
+{
+  // .devcontainer/があるディレクトリ名をDevContainer名とする
+  "name": "${localWorkspaceFolderBasename}",
+  // Pythonのバージョンを指定したイメージ
+  "image": "mcr.microsoft.com/devcontainers/python:3.13",
+  // コンテナ内の作業ディレクトリ
+  "workspaceFolder": "/workspace",
+  // ローカルディレクトリを/workspaceにマウント
+  // この指定がない場合、/workspaces/{localWorkspaceFolderBasename} が作成される
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  "mounts": [
+    // WSLgの音声デバイスをコンテナにマウント
+    {
+      "type": "bind",
+      "source": "/mnt/wslg",
+      "target": "/mnt/wslg"
+    }
+  ],
+  // ライブラリインストール
+  "onCreateCommand": "sudo apt update -qq && sudo apt install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev pulseaudio && sudo apt clean && sudo rm -rf /var/lib/apt/lists/*",
+  // Pyxelインストール
+  "postCreateCommand": "pip install -U pyxel",
+  "containerEnv": {
+    "PULSE_SERVER": "${localEnv:PULSE_SERVER}",
+    "XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}"
+  },
+  "customizations": {
+    // VSCode拡張機能
+    "vscode": {
+      "extensions": [
+        "charliermarsh.ruff", // Ruff linter and formatter
+        "naumovs.color-highlight" // Highlight web colors
+      ]
+    }
+  }
+}

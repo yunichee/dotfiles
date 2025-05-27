@@ -1,0 +1,23 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/debian
+{
+  // .devcontainer/があるディレクトリ名をDevContainer名とする
+  "name": "${localWorkspaceFolderBasename}",
+  // Ubuntuのバージョンを指定したイメージ
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  // コンテナ内の作業ディレクトリ
+  "workspaceFolder": "/workspace",
+  // ローカルディレクトリを/workspaceにマウント
+  // この指定がない場合、/workspaces/{localWorkspaceFolderBasename} が作成される
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  // Denoインストール
+  "onCreateCommand": "curl -fsSL https://deno.land/install.sh | sh",
+  "customizations": {
+    // VSCode拡張機能
+    "vscode": {
+      "extensions": [
+	      "denoland.vscode-deno"
+      ]
+    }
+  }
+}
